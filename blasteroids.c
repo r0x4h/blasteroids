@@ -4,11 +4,10 @@
 #include "spaceship.h"
 
 const float FPS = 60;
-
+enum KEYS { UP, DOWN, LEFT, RIGHT, SPACE };
 Spaceship ship;
 
-void error (char *msg)
-{
+void error (char *msg) {
    fprintf (stderr, "%s: %s\n", msg, strerror(errno));
    exit (1);
 }
@@ -23,8 +22,9 @@ void draw () {
 	al_flip_display();
 }
 
-int main (int argc, char **argv)
-{
+int main (int argc, char **argv) {
+	bool key[5] = { false, false, false, false, false };
+
 	// init
 	if (!al_init()) {
 		error ("failed to init allegro");
@@ -78,32 +78,69 @@ int main (int argc, char **argv)
 		if (!got_event)
 			continue;
 
-		switch (event.type) {
-			case ALLEGRO_EVENT_TIMER:
-				redraw = true;
-				break;
-			case ALLEGRO_EVENT_DISPLAY_CLOSE:
-				running = false;
-				break;
-			case ALLEGRO_EVENT_KEY_DOWN:
+		if (event.type == ALLEGRO_EVENT_TIMER) {
+			if (key[UP]) {
+				speed_up (&ship);
+			}
+
+			if (key[DOWN]) {
+				slow_down (&ship);
+			}
+			
+			if (key[LEFT]) {
+				rotate_left (&ship);
+			}
+			
+			if (key[RIGHT]) {
+				rotate_right (&ship);
+			}
+			
+			if (key[SPACE]) {
+				// fire
+			}
+			
+			redraw = true;
+		}
+		else if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+			running = false;
+		}
+		else if (event.type == ALLEGRO_EVENT_KEY_DOWN) {
 				switch (event.keyboard.keycode) {
-					case ALLEGRO_KEY_LEFT:
-						rotate_left (&ship);
-						break;
-					case ALLEGRO_KEY_RIGHT:
-						rotate_right (&ship);
-						break;
 					case ALLEGRO_KEY_UP:
-						speed_up (&ship);
+						key[UP] = true;
 						break;
 					case ALLEGRO_KEY_DOWN:
-						slow_down (&ship);
+						key[DOWN] = true;
+						break;
+					case ALLEGRO_KEY_LEFT:
+						key[LEFT] = true;
+						break;
+					case ALLEGRO_KEY_RIGHT:
+						key[RIGHT] = true;
 						break;
 					case ALLEGRO_KEY_SPACE:
-						puts("pressed space");
+						key[SPACE] = true;
 						break;
 				}
-			break;
+		}
+		else if (event.type == ALLEGRO_EVENT_KEY_UP) {
+				switch (event.keyboard.keycode) {
+					case ALLEGRO_KEY_UP:
+						key[UP] = false;
+						break;
+					case ALLEGRO_KEY_DOWN:
+						key[DOWN] = false;
+						break;
+					case ALLEGRO_KEY_LEFT:
+						key[LEFT] = false;
+						break;
+					case ALLEGRO_KEY_RIGHT:
+						key[RIGHT] = false;
+						break;
+					case ALLEGRO_KEY_SPACE:
+						key[SPACE] = false;
+						break;
+				}
 		}
 
 		// repaint if needed
@@ -114,6 +151,7 @@ int main (int argc, char **argv)
 	}
 
 	// clean up
+	al_destroy_timer (timer);
 	al_destroy_display (display);
 	al_destroy_event_queue (event_queue);
 

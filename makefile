@@ -1,6 +1,6 @@
 COMPILER := gcc
 FLAGS := -g -Wall
-LIBS := -lallegro -lallegro_primitives
+LIBS := -lallegro -lallegro_primitives -lm
 
 .DEFAULT_GOAL := all
 
