@@ -11,7 +11,7 @@ double to_radians (double degrees) {
 void init_ship (Spaceship *ship) {
 	ship->sx = 320;
 	ship->sy = 240;
-	ship->heading = 90;
+	ship->heading = 0;
 	ship->speed = 0;
 	ship->gone = 0;
 	ship->color = al_map_rgb(0, 255, 0);
@@ -57,10 +57,9 @@ void draw_ship (Spaceship *ship) {
 	al_translate_transform (&transform, ship->sx, ship->sy);
 	al_use_transform (&transform);
 
-	al_draw_line (-8, 9, 0, -11, ship->color, 3.0f);
-	al_draw_line (0, -11, 8, 9, ship->color, 3.0f);
-	al_draw_line (-6, 4, -1, 4, ship->color, 3.0f);
-	al_draw_line (6, 4, 1, 4, ship->color, 3.0f);
+	al_draw_line (-11, 8, 8, 0, ship->color, 3.0f);
+	al_draw_line (8, 0, -11, -8, ship->color, 3.0f);
+	al_draw_line (-11, 8, -11, -8, ship->color, 3.0f);
 	
 	move (ship);
 }
