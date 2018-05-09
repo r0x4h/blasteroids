@@ -12,13 +12,9 @@ void error (char *msg) {
    exit (1);
 }
 
-void draw () {
-	// clear background with color
+void redraw () {
 	al_clear_to_color (al_map_rgb(0, 0, 0));
-
-	// draw other stuff
 	draw_ship (&ship);
-
 	al_flip_display();
 }
 
@@ -57,14 +53,13 @@ int main (int argc, char **argv) {
 	al_register_event_source (event_queue, al_get_timer_event_source (timer));
 	al_register_event_source (event_queue, al_get_keyboard_event_source ());
 
-	init_ship (&ship);
-	draw ();
+	ship_init (&ship);
 
 	// start timer
 	al_start_timer (timer);
 
 	// game loop
-	bool redraw = true;
+	bool needs_redraw = true;
 	bool running = true;
 	while (running)
 	{
@@ -80,26 +75,26 @@ int main (int argc, char **argv) {
 
 		if (event.type == ALLEGRO_EVENT_TIMER) {
 			if (key[UP]) {
-				speed_up (&ship);
+				ship_accelerate (&ship);
 			}
 
 			if (key[DOWN]) {
-				slow_down (&ship);
+				ship_brake (&ship);
 			}
 			
 			if (key[LEFT]) {
-				rotate_left (&ship);
+				ship_turn_left (&ship);
 			}
 			
 			if (key[RIGHT]) {
-				rotate_right (&ship);
+				ship_turn_right (&ship);
 			}
 			
 			if (key[SPACE]) {
 				// fire
 			}
 			
-			redraw = true;
+			needs_redraw = true;
 		}
 		else if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			running = false;
@@ -144,9 +139,9 @@ int main (int argc, char **argv) {
 		}
 
 		// repaint if needed
-		if (redraw) {
-			draw ();
-			redraw = false;
+		if (needs_redraw) {
+			redraw ();
+			needs_redraw = false;
 		}
 	}
 
