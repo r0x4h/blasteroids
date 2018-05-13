@@ -15,3 +15,6 @@ all: blasteroids.o spaceship.o
 	
 clean:
 	rm *.o blasteroids
+
+run:
+	./blasteroids

@@ -14,7 +14,7 @@ void error (char *msg) {
 
 void redraw () {
 	al_clear_to_color (al_map_rgb(0, 0, 0));
-	draw_ship (&ship);
+	ship_draw (&ship);
 	al_flip_display();
 }
 

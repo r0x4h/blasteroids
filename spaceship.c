@@ -22,14 +22,14 @@ void ship_init (Spaceship *ship) {
 
 void ship_turn_left (Spaceship *ship) {
 	ship->heading -= 5;
-	
+
 	if (ship->heading == -5)
 		ship->heading = 355;
 }
 
 void ship_turn_right (Spaceship *ship) {
 	ship->heading += 5;
-	
+
 	if (ship->heading == 360)
 		ship->heading = 0;
 }
@@ -71,11 +71,9 @@ void move (Spaceship *ship) {
 	}
 }
 
-void draw_ship (Spaceship *ship) {
+void ship_draw (Spaceship *ship) {
 	draw (ship);
 	transform (ship);
 	move (ship);
 	apply_drag (ship);
 }
-
-
