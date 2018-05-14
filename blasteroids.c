@@ -2,9 +2,11 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include "spaceship.h"
+#include "asteroid.h"
+
+enum KEYS { UP, DOWN, LEFT, RIGHT, SPACE };
 
 const float FPS = 60;
-enum KEYS { UP, DOWN, LEFT, RIGHT, SPACE };
 Spaceship ship;
 
 void error (char *msg) {

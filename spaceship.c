@@ -1,15 +1,13 @@
+#include <stdio.h>
 #include <math.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_primitives.h>
 #include "spaceship.h"
-#include <stdio.h>
+#include "util.h"
 
 const int MAX_SPEED = 4;
+const int TURN_ANGLE = 1;
 const float DRAG = 0.02;
-
-double to_radians (double degrees) {
-	return degrees * (M_PI / 180.0);
-}
 
 void ship_init (Spaceship *ship) {
 	ship->sx = 320;
@@ -21,14 +19,14 @@ void ship_init (Spaceship *ship) {
 }
 
 void ship_turn_left (Spaceship *ship) {
-	ship->heading -= 5;
+	ship->heading -= TURN_ANGLE;
 
-	if (ship->heading == -5)
-		ship->heading = 355;
+	if (ship->heading == -1)
+		ship->heading = 359;
 }
 
 void ship_turn_right (Spaceship *ship) {
-	ship->heading += 5;
+	ship->heading += TURN_ANGLE;
 
 	if (ship->heading == 360)
 		ship->heading = 0;

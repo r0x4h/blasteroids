@@ -4,14 +4,20 @@ LIBS := -lallegro -lallegro_primitives -lm
 
 .DEFAULT_GOAL := all
 
-blasteroids.o: blasteroids.c spaceship.o spaceship.h
-	$(COMPILER) -c $(FLAGS) blasteroids.c
+util.o: util.h
+	$(COMPILER) -c $(FLAGS) util.c
 
-spaceship.o: spaceship.c spaceship.h
+spaceship.o: util.o
 	$(COMPILER) -c $(FLAGS) spaceship.c
 
-all: blasteroids.o spaceship.o
-	$(COMPILER) blasteroids.o spaceship.o $(LIBS) -o blasteroids
+asteroid.o: util.o
+	$(COMPILER) -c $(FLAGS) asteroid.c
+
+blasteroids.o: spaceship.o asteroid.o
+	$(COMPILER) -c $(FLAGS) blasteroids.c
+
+all: blasteroids.o spaceship.o asteroid.o util.o
+	$(COMPILER) blasteroids.o spaceship.o asteroid.o util.o $(LIBS) -o blasteroids
 	
 clean:
 	rm *.o blasteroids
