@@ -6,7 +6,7 @@
 #include "util.h"
 
 const int MAX_SPEED = 4;
-const int TURN_ANGLE = 1;
+const int TURN_ANGLE = 4;
 const float DRAG = 0.02;
 
 void ship_init (Spaceship *ship) {
@@ -21,8 +21,8 @@ void ship_init (Spaceship *ship) {
 void ship_turn_left (Spaceship *ship) {
 	ship->heading -= TURN_ANGLE;
 
-	if (ship->heading == -1)
-		ship->heading = 359;
+	if (ship->heading == -4)
+		ship->heading = 356;
 }
 
 void ship_turn_right (Spaceship *ship) {
@@ -70,8 +70,8 @@ void ship_move (Spaceship *ship) {
 }
 
 void ship_draw (Spaceship *ship) {
-	ship_draw_path (ship);
 	ship_transform (ship);
+	ship_draw_path (ship);
 	ship_move (ship);
 	apply_drag (ship);
 }

@@ -8,13 +8,13 @@
 void asteroid_init (Asteroid *ast) {
 	ast->sx = 320;
 	ast->sy = 240;
-	ast->heading = 0;
+	ast->heading = 90;
 	ast->twist = 0;
-	ast->speed = 0;
+	ast->speed = 1;
 	ast->rot_velocity = 0;
 	ast->scale = 1;
 	ast->gone = 0;
-	ast->color = al_map_rgb(255, 0, 0);
+	ast->color = al_map_rgb(255, 255, 255);
 }
 
 void asteroid_draw_path (Asteroid *ast) {
@@ -41,11 +41,15 @@ void asteroid_transform (Asteroid *ast) {
 }
 
 void asteroid_move (Asteroid *ast) {
-	// do some movement
+	if (ast->speed > 0) {
+		double heading_rads = to_radians (ast->heading);
+		ast->sx += ast->speed * cos(heading_rads);
+		ast->sy += ast->speed * sin(heading_rads);
+	}
 }
 
 void asteroid_draw (Asteroid *ast) {
+	asteroid_transform (ast);	
 	asteroid_draw_path (ast);
-	asteroid_transform (ast);
 	asteroid_move (ast);
 }
