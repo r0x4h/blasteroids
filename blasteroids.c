@@ -8,6 +8,7 @@ enum KEYS { UP, DOWN, LEFT, RIGHT, SPACE };
 
 const float FPS = 60;
 Spaceship ship;
+Asteroid ast;
 
 void error (char *msg) {
    fprintf (stderr, "%s: %s\n", msg, strerror(errno));
@@ -17,6 +18,7 @@ void error (char *msg) {
 void redraw () {
 	al_clear_to_color (al_map_rgb(0, 0, 0));
 	ship_draw (&ship);
+	asteroid_draw (&ast);
 	al_flip_display();
 }
 
@@ -56,7 +58,8 @@ int main (int argc, char **argv) {
 	al_register_event_source (event_queue, al_get_keyboard_event_source ());
 
 	ship_init (&ship);
-
+	asteroid_init (&ast);
+	
 	// start timer
 	al_start_timer (timer);
 

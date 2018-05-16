@@ -42,13 +42,13 @@ void ship_brake (Spaceship *ship) {
 		ship->speed -= 0.1;
 }
 
-void draw ( Spaceship *ship) {
+void ship_draw_path ( Spaceship *ship) {
 	al_draw_line (-11, 8, 8, 0, ship->color, 2.0f);
 	al_draw_line (8, 0, -11, -8, ship->color, 2.0f);
 	al_draw_line (-11, 8, -11, -8, ship->color, 3.0f);
 }
 
-void transform ( Spaceship *ship) {
+void ship_transform ( Spaceship *ship) {
 	ALLEGRO_TRANSFORM transform;
 	al_identity_transform (&transform);
 	al_rotate_transform (&transform, to_radians (ship->heading));
@@ -61,7 +61,7 @@ void apply_drag (Spaceship *ship) {
 		ship->speed -= DRAG;
 }
 
-void move (Spaceship *ship) {
+void ship_move (Spaceship *ship) {
 	if (ship->speed > 0) {
 		double heading_rads = to_radians (ship->heading);
 		ship->sx += ship->speed * cos(heading_rads);
@@ -70,8 +70,8 @@ void move (Spaceship *ship) {
 }
 
 void ship_draw (Spaceship *ship) {
-	draw (ship);
-	transform (ship);
-	move (ship);
+	ship_draw_path (ship);
+	ship_transform (ship);
+	ship_move (ship);
 	apply_drag (ship);
 }
